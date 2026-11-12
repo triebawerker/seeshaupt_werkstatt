@@ -56,7 +56,7 @@ a forgotten password means you reset it for her
 - CDK bootstrap in the site region, and in `us-east-1` once you use a domain:
 
 ```bash
-npx aws-cdk@2 bootstrap aws://<ACCOUNT_ID>/eu-central-1 aws://<ACCOUNT_ID>/us-east-1
+npx aws-cdk@2.1148.1 bootstrap aws://<ACCOUNT_ID>/eu-central-1 aws://<ACCOUNT_ID>/us-east-1
 ```
 
 ## Setup and tests
@@ -80,7 +80,7 @@ pytest -q          # CDK assertion tests + handover script tests, no AWS needed
 ## Step 1: deploy without a domain (prototype)
 
 ```bash
-npx aws-cdk@2 deploy WerkstattSite
+npx aws-cdk@2.1148.1 deploy WerkstattSite
 aws s3 sync ./site s3://<BucketName>      # the placeholder pages in ./site
 python -m scripts.handover                 # prints URL, login, commands
 ```
@@ -92,7 +92,7 @@ Open the `SiteUrl` output. You should see the "Coming soon" page.
 Set `domain_name` in `cdk.json` (or pass `-c domain_name=example.org`) and run:
 
 ```bash
-npx aws-cdk@2 deploy --all
+npx aws-cdk@2.1148.1 deploy --all
 ```
 
 The certificate stack now **waits** (`CREATE_IN_PROGRESS`) until the domain is validated.
