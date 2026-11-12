@@ -1,0 +1,11 @@
+{
+  "app": "python3 app.py",
+  "context": {
+    "site_name": "werkstatt",
+    "region": "eu-central-1",
+    "domain_name": "",
+    "editor_user_name": "",
+    "create_console_password": true,
+    "@aws-cdk/core:defaultCrossStackReferences": "strong"
+  }
+}
