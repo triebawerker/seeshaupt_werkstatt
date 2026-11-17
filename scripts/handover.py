@@ -94,10 +94,15 @@ def render(site_outputs: dict[str, str], domain: Optional[str], certificate: Opt
         if certificate:
             records += validation_records(certificate)
             out.append(f"Certificate status: {certificate.get('Status', '?')}")
-        if "DistributionDomainName" in site_outputs:
+        # Only once the site stack serves the domain (it then has DnsWwwRecord); pointing DNS
+        # at a distribution without the alias would break the domain.
+        if "DnsWwwRecord" in site_outputs and "DistributionDomainName" in site_outputs:
             records += site_records(domain, site_outputs["DistributionDomainName"])
         else:
-            out.append("(Site stack not deployed yet: www/apex records follow once the certificate is issued.)")
+            out.append(
+                "(Site not yet deployed with this domain: add only the validation records now; "
+                "www/apex records follow after `cdk deploy WerkstattSite`.)"
+            )
         out.append(format_records(records))
     return "\n".join(out)
 

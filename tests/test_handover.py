@@ -21,6 +21,7 @@ OUTPUTS = {
     "SiteUrl": "https://www.example.org",
     "DistributionDomainName": "d111.cloudfront.net",
     "EditorUserName": "werkstatt-editor",
+    "DnsWwwRecord": "CNAME www.example.org -> d111.cloudfront.net",
     "ConsoleSignInUrl": "https://123456789012.signin.aws.amazon.com/console",
     "EditorPasswordSecretArn": "arn:aws:secretsmanager:eu-central-1:123456789012:secret:x",
 }
@@ -55,10 +56,18 @@ def test_render_with_pending_site_shows_only_validation_records():
     text = render({}, "example.org", CERT)
     assert "_b1.acm-validations.aws." in text
     assert "d111" not in text
-    assert "not deployed yet" in text
+    assert "not yet deployed with this domain" in text
 
 
 def test_render_with_domain_shows_all_records():
     text = render(OUTPUTS, "example.org", CERT)
     for needle in ("_a1.example.org.", "www.example.org.", "ALIAS/ANAME", "PENDING_VALIDATION"):
         assert needle in text
+
+
+def test_render_hides_www_records_until_site_serves_domain():
+    outputs = {k: v for k, v in OUTPUTS.items() if k != "DnsWwwRecord"}
+    text = render(outputs, "example.org", CERT)
+    assert "_a1.example.org." in text
+    assert "d111.cloudfront.net." not in text
+    assert "not yet deployed with this domain" in text
