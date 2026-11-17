@@ -3,7 +3,7 @@
   "context": {
     "site_name": "werkstatt",
     "region": "eu-central-1",
-    "domain_name": "",
+    "domain_name": "wildpatagoniaadventures.com",
     "editor_user_name": "",
     "create_console_password": true,
     "@aws-cdk/core:defaultCrossStackReferences": "strong"
